@@ -3,3 +3,18 @@ body {
   text-align: center;
   padding: 50px;
 }
+
+.label {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.value {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.point {
+  font-size: 40px;
+  font-weight: bold;
+}

@@ -12,13 +12,25 @@ window.onload = () => {
   const user = JSON.parse(data);
   const now = new Date().toLocaleString();
   container.innerHTML = `
-    <p><strong>Member No:</strong> ${user.MemberNo}</p>
-    <p><strong>User Name:</strong> ${user.Name}</p>
-    <p><strong>Email Address:</strong> ${user.EmailAddress}</p>
-    <p><strong>Mobile Phone:</strong> ${user.MobilePhone}</p>
-    <p><strong>Point:</strong> ${user.Point}</p>
-    <p><strong>Now Time:</strong> ${now}</p>
-  `;
+    <div class="point-label">Point:</div>
+    <div class="point-value">${user.Point}</div>
+
+    <div class="label">Member No:</div>
+    <div class="value">${user.MemberNo}</div>
+
+    <div class="label">User Name:</div>
+    <div class="value">${user.Name}</div>
+
+    <div class="label">Email Address:</div>
+    <div class="value">${user.EmailAddress}</div>
+
+    <div class="label">Mobile Phone:</div>
+    <div class="value">${user.MobilePhone}</div>
+
+    <div class="label">Now Time:</div>
+    <div class="value">${now}</div>
+    `;
+
 };
 
 // Refresh app button
