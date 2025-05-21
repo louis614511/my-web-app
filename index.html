@@ -5,11 +5,26 @@
   <link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
+  <!-- Firebase App (core) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <!-- Firebase Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+
 </head>
 <body>
   <h1>Hello Web App 👋</h1>
   <p>This works on mobile and desktop!</p>
   <p>Blablabla</p>
+
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <br />
+  <input type="password" id="password" placeholder="Password" />
+  <br />
+  <button onclick="login()">Login</button>
+
+  <p id="result"></p>
+
 
   <script src="app.js"></script>
 </body>
