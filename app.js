@@ -21,12 +21,12 @@ window.login = function () {
   const inputPass = document.getElementById("password").value;
   const resultEl = document.getElementById("result");
 
-  get(ref(db, "DOChecker/Users")).then((snapshot) => {
+  get(ref(db, "MemberPointChecker/Member")).then((snapshot) => {
     if (snapshot.exists()) {
       let found = false;
       snapshot.forEach((childSnapshot) => {
         const user = childSnapshot.val();
-        if (user.UserName === inputUser && user.Password === inputPass) {
+        if ((user.EmailAddress === inputUser || user.MobilePhone === inputUser) && user.MemberNo === inputPass) {
           found = true;
           //resultEl.textContent = "Created Time: " + user.CreatedTime;
 
@@ -38,7 +38,7 @@ window.login = function () {
       });
 
       if (!found) {
-        resultEl.textContent = "Invalid username or password.";
+        resultEl.textContent = "Invalid id or password.";
       }
     } else {
       resultEl.textContent = "No data found.";

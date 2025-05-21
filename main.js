@@ -12,11 +12,12 @@ window.onload = () => {
   const user = JSON.parse(data);
   const now = new Date().toLocaleString();
   container.innerHTML = `
-    <p><strong>UserName:</strong> ${user.UserName}</p>
-    <p><strong>Password:</strong> ${user.Password}</p>
-    <p><strong>isLoggedIn:</strong> ${user.isLoggedIn}</p>
-    <p><strong>CreatedTime:</strong> ${user.CreatedTime}</p>
-    <p><strong>CreatedTime:</strong> ${now}</p>
+    <p><strong>Member No:</strong> ${user.MemberNo}</p>
+    <p><strong>User Name:</strong> ${user.Name}</p>
+    <p><strong>Email Address:</strong> ${user.EmailAddress}</p>
+    <p><strong>Mobile Phone:</strong> ${user.MobilePhone}</p>
+    <p><strong>Point:</strong> ${user.Point}</p>
+    <p><strong>Now Time:</strong> ${now}</p>
   `;
 };
 
