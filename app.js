@@ -1,13 +1,10 @@
 console.log("Web App Loaded");
 
-// Optional: Add more functionality here
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('Service Worker registered'));
-}
-
-// Replace with your own Firebase config
+// Your config
 const firebaseConfig = {
   apiKey: "AIzaSyB31qLNXaKh5Eo5ft0GT3FDdqHcTMXvT0s",
   authDomain: "ctinventory-af9f8.firebaseapp.com",
@@ -15,27 +12,34 @@ const firebaseConfig = {
   projectId: "ctinventory-af9f8",
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-function login() {
+window.login = function () {
   const inputUser = document.getElementById("username").value;
   const inputPass = document.getElementById("password").value;
   const resultEl = document.getElementById("result");
 
-  db.ref("DOChecker/Users").once("value", (snapshot) => {
-    let found = false;
+  get(ref(db, "DOChecker/Users")).then((snapshot) => {
+    if (snapshot.exists()) {
+      let found = false;
+      snapshot.forEach((childSnapshot) => {
+        const user = childSnapshot.val();
+        if (user.UserName === inputUser && user.Password === inputPass) {
+          found = true;
+          resultEl.textContent = "Created Time: " + user.CreatedTime;
+        }
+      });
 
-    snapshot.forEach((child) => {
-      const user = child.val();
-      if (user.UserName === inputUser && user.Password === inputPass) {
-        found = true;
-        resultEl.textContent = "Created Time: " + user.CreatedTime;
+      if (!found) {
+        resultEl.textContent = "Invalid username or password.";
       }
-    });
-
-    if (!found) {
-      resultEl.textContent = "Invalid username or password.";
+    } else {
+      resultEl.textContent = "No data found.";
     }
+  }).catch((error) => {
+    console.error(error);
+    resultEl.textContent = "Error connecting to database.";
   });
 }
