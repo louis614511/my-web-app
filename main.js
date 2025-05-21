@@ -1,3 +1,4 @@
+//<!-- main.js -->
 window.onload = () => {
   const data = localStorage.getItem("loggedInUser");
 
@@ -12,24 +13,27 @@ window.onload = () => {
   const user = JSON.parse(data);
   const now = new Date().toLocaleString();
   container.innerHTML = `
-    <div class="point-label">Point:</div>
-    <div class="point-value">${user.Point}</div>
+    <div class="info-box">
+        <div class="point-label">Point:</div>
+        <div class="point-value">${user.Point}</div>
 
-    <div class="label">Member No:</div>
-    <div class="value">${user.MemberNo}</div>
+        <div class="label">Member No:</div>
+        <div class="value">${user.MemberNo}</div>
 
-    <div class="label">User Name:</div>
-    <div class="value">${user.Name}</div>
+        <div class="label">User Name:</div>
+        <div class="value">${user.Name}</div>
 
-    <div class="label">Email Address:</div>
-    <div class="value">${user.EmailAddress}</div>
+        <div class="label">Email Address:</div>
+        <div class="value">${user.EmailAddress}</div>
 
-    <div class="label">Mobile Phone:</div>
-    <div class="value">${user.MobilePhone}</div>
+        <div class="label">Mobile Phone:</div>
+        <div class="value">${user.MobilePhone}</div>
 
-    <div class="label">Now Time:</div>
-    <div class="value">${now}</div>
+        <div class="label">Now Time:</div>
+        <div class="value">${now}</div>
+    </div>
     `;
+
 
 };
 

@@ -1,10 +1,11 @@
+/*styles.css*/
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 50px;
 }
 
-.label {
+.label, .point-label {
   font-weight: bold;
   margin-top: 20px;
 }
@@ -14,7 +15,13 @@ body {
   margin-bottom: 10px;
 }
 
-.point {
+.point-value {
   font-size: 40px;
   font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.info-box {
+  max-width: 400px;
+  margin: 0 auto;
 }
