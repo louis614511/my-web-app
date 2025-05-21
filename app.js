@@ -28,7 +28,12 @@ window.login = function () {
         const user = childSnapshot.val();
         if (user.UserName === inputUser && user.Password === inputPass) {
           found = true;
-          resultEl.textContent = "Created Time: " + user.CreatedTime;
+          //resultEl.textContent = "Created Time: " + user.CreatedTime;
+
+          // Save to localStorage
+          localStorage.setItem("loggedInUser", JSON.stringify(u));
+          // Redirect
+          window.location.href = "main.html"
         }
       });
 
