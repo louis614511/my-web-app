@@ -1,7 +1,10 @@
 //<!-- main.js -->
 import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-// Fetch and display user info
+// Track current member number globally
+let currentMemberNo = null;
+
+// Show user info in HTML
 function loadUserInfo(user) {
   const container = document.getElementById("userInfo");
   const now = new Date().toLocaleString();
@@ -18,7 +21,7 @@ function loadUserInfo(user) {
       <div class="value">${user.Name}</div>
 
       <div class="label">Email Address:</div>
-      <div class="value">${user.EmailAddress}</div>
+      <div class="value">${user.EmailAddress ?? "N/A"}</div>
 
       <div class="label">Mobile Phone:</div>
       <div class="value">${user.MobilePhone}</div>
@@ -29,7 +32,36 @@ function loadUserInfo(user) {
   `;
 }
 
-// Load user from localStorage or redirect
+// Fetch from Firebase and update localStorage
+function fetchLatestUserData(memberNo) {
+  const dbRef = ref(getDatabase());
+  get(child(dbRef, "MemberPointChecker/Member"))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        let found = false;
+        snapshot.forEach(childSnapshot => {
+          const user = childSnapshot.val();
+          if (user.MemberNo === memberNo) {
+            localStorage.setItem("loggedInUser", JSON.stringify(user));
+            loadUserInfo(user);
+            found = true;
+          }
+        });
+
+        if (!found) {
+          document.getElementById("userInfo").innerHTML = "<p>User not found.</p>";
+        }
+      } else {
+        document.getElementById("userInfo").innerHTML = "<p>No data available.</p>";
+      }
+    })
+    .catch(error => {
+      console.error("Fetch failed:", error);
+      document.getElementById("userInfo").innerHTML = "<p>Error loading data.</p>";
+    });
+}
+
+// Load on page ready
 window.onload = () => {
   const data = localStorage.getItem("loggedInUser");
   if (!data) {
@@ -38,33 +70,15 @@ window.onload = () => {
   }
 
   const user = JSON.parse(data);
-  fetchLatestUserData(user.MemberNo);
+  currentMemberNo = user.MemberNo;
+  fetchLatestUserData(currentMemberNo);
 };
 
-// Fetch latest user data from Firebase
-function fetchLatestUserData(memberNo) {
-  const dbRef = ref(getDatabase());
-  get(child(dbRef, "MemberPointChecker/Member")).then((snapshot) => {
-    if (snapshot.exists()) {
-      snapshot.forEach((childSnapshot) => {
-        const user = childSnapshot.val();
-        if (user.MemberNo === memberNo) {
-          localStorage.setItem("loggedInUser", JSON.stringify(user));
-          loadUserInfo(user);
-        }
-      });
-    }
-  }).catch((error) => {
-    console.error("Failed to load user data:", error);
-  });
-}
-
-// Refresh app button
+// Refresh app
 window.refreshApp = () => {
-  const data = localStorage.getItem("loggedInUser");
-  if (!data) return;
-  const user = JSON.parse(data);
-  fetchLatestUserData(user.MemberNo);
+  if (currentMemberNo) {
+    fetchLatestUserData(currentMemberNo);
+  }
 };
 
 // Logout
@@ -72,4 +86,5 @@ window.logout = () => {
   localStorage.removeItem("loggedInUser");
   window.location.replace("index.html");
 };
+
 
