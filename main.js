@@ -15,7 +15,7 @@ window.onload = () => {
   container.innerHTML = `
     <div class="info-box">
         <div class="label">Point:</div>
-        <div class="value">${user.Point}</div>
+        <div class="point-value">${user.Point}</div>
 
         <div class="label">Member No:</div>
         <div class="value">${user.MemberNo}</div>
