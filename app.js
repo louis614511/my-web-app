@@ -48,3 +48,7 @@ window.login = function () {
     resultEl.textContent = "Error connecting to database.";
   });
 }
+
+window.refreshApp = () => {
+  location.reload(); // simple page reload
+};
