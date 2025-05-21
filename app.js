@@ -31,7 +31,7 @@ window.login = function () {
           //resultEl.textContent = "Created Time: " + user.CreatedTime;
 
           // Save to localStorage
-          localStorage.setItem("loggedInUser", JSON.stringify(u));
+          localStorage.setItem("loggedInUser", JSON.stringify(user));
           // Redirect
           window.location.href = "main.html"
         }
