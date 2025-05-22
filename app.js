@@ -23,8 +23,13 @@ window.login = function () {
   const inputUser = document.getElementById("username").value;
   const inputPass = document.getElementById("password").value;
   const resultEl = document.getElementById("result");
+  const loadingEl = document.getElementById("loading");
+
+  resultEl.textContent = "";
+  loadingEl.style.display = "block"; // ✅ Show loading
 
   if (!dbid) {
+    loadingEl.style.display = "none";
     resultEl.textContent = "DBID is required.";
     return;
   }
@@ -39,6 +44,7 @@ window.login = function () {
           //resultEl.textContent = "Created Time: " + user.CreatedTime;
 
           // Save to localStorage
+          localStorage.setItem("dbID", dbid);
           localStorage.setItem("loggedInUser", JSON.stringify(user));
           // Redirect
           window.location.href = "main.html"
@@ -52,6 +58,7 @@ window.login = function () {
       resultEl.textContent = "No data found.";
     }
   }).catch((error) => {
+    loadingEl.style.display = "none"; // ✅ Hide on error
     console.error(error);
     resultEl.textContent = "Error connecting to database.";
   });
