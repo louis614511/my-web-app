@@ -54,11 +54,12 @@ window.onload = () => {
 
 // Refresh app button
 window.refreshApp = async () => {
+  const dbID = localStorage.getItem("dbID");
   const stored = localStorage.getItem("loggedInUser");
   if (!stored) return;
 
   const oldUser = JSON.parse(stored);
-  const userRef = ref(db, `MemberPointChecker/Member/${oldUser.MemberNo}`); // or use UID if your structure is different
+  const userRef = ref(db, `MemberPointChecker/${dbID}/Member/${oldUser.MemberNo}`); // or use UID if your structure is different
 
   try {
     const snapshot = await get(userRef);

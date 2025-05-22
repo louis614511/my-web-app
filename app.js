@@ -1,3 +1,5 @@
+//<!-- app.js -->
+
 console.log("Web App Loaded");
 
 // Import Firebase modules
@@ -17,11 +19,17 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 window.login = function () {
+  const dbid = document.getElementById("dbid").value.trim();
   const inputUser = document.getElementById("username").value;
   const inputPass = document.getElementById("password").value;
   const resultEl = document.getElementById("result");
 
-  get(ref(db, "MemberPointChecker/Member")).then((snapshot) => {
+  if (!dbid) {
+    resultEl.textContent = "DBID is required.";
+    return;
+  }
+
+  get(ref(db, `MemberPointChecker/${dbid}/Member`)).then((snapshot) => {
     if (snapshot.exists()) {
       let found = false;
       snapshot.forEach((childSnapshot) => {
