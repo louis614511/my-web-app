@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 window.login = function () {
-  const dbid = document.getElementById("dbid").value.trim();
+  const dbid = document.getElementById("dbid").value.trim().toUpperCase();
   const inputUser = document.getElementById("username").value;
   const inputPass = document.getElementById("password").value;
   const resultEl = document.getElementById("result");
@@ -45,6 +45,7 @@ window.login = function () {
 
           // Save to localStorage
           localStorage.setItem("dbID", dbid);
+          localStorage.setItem("savedUsername", inputUser);
           localStorage.setItem("loggedInUser", JSON.stringify(user));
           // Redirect
           window.location.href = "main.html"

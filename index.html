@@ -16,7 +16,7 @@
 <body>
   <h1>Hello Web App 👋</h1>
   <p>This works on mobile and desktop!</p>
-  <p>V16</p>
+  <p>V17</p>
 
   <h2>Login</h2>
   <input type="text" id="dbid" placeholder="DBID" style="text-transform: uppercase;" />
@@ -42,6 +42,20 @@
 
   <p id="result" style="font-weight: bold; margin-top: 10px;"></p>
 
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+      const dbid = localStorage.getItem("dbID");
+      const username = localStorage.getItem("savedUsername");
+
+      if (dbid) {
+        document.getElementById("dbid").value = dbid;
+      }
+
+      if (username) {
+        document.getElementById("username").value = username;
+      }
+    });
+  </script>
 
   
 
