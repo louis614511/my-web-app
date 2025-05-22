@@ -16,6 +16,7 @@ const db = getDatabase(app);
 
 window.onload = () => {
   const data = localStorage.getItem("loggedInUser");
+  const dbID = localStorage.getItem("dbID");
 
   if (!data) {
     // User is not logged in → redirect to login
@@ -59,7 +60,8 @@ window.refreshApp = async () => {
   if (!stored) return;
 
   const oldUser = JSON.parse(stored);
-  const userRef = ref(db, `MemberPointChecker/${dbID}/Member/${oldUser.MemberNo}`); // or use UID if your structure is different
+  const profileRef = ref(db, `MemberPointChecker/${dbID}/CompanyProfile`); 
+  const userRef = ref(db, `MemberPointChecker/${dbID}/Member/${oldUser.MemberNo}`); 
 
   try {
     const snapshot = await get(userRef);
