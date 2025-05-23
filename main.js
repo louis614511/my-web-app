@@ -30,6 +30,24 @@ window.onload = () => {
   document.getElementById("balanceInfo").innerHTML = `
     <div class="point-value">${user.Point ?? 0}</div>
     <div class="now-time">Now Time: ${nowTime}</div>
+    <div class="user-details-card">
+    <div class="user-detail-row">
+      <span class="user-detail-label">Member No:</span>
+      <span class="user-detail-value">${user.MemberNo ?? ''}</span>
+    </div>
+    <div class="user-detail-row">
+      <span class="user-detail-label">User Name:</span>
+      <span class="user-detail-value">${user.Name ?? ''}</span>
+    </div>
+    <div class="user-detail-row">
+      <span class="user-detail-label">Email Address:</span>
+      <span class="user-detail-value">${user.EmailAddress ?? ''}</span>
+    </div>
+    <div class="user-detail-row">
+      <span class="user-detail-label">Mobile Phone:</span>
+      <span class="user-detail-value">${user.MobilePhone ?? ''}</span>
+    </div>
+  </div>
   `;
 
   // Details Page
@@ -77,6 +95,24 @@ window.refreshApp = async () => {
       document.getElementById("balanceInfo").innerHTML = `
         <div class="point-value">${user.Point ?? 0}</div>
         <div class="now-time">Now Time: ${nowTime}</div>
+        <div class="user-details-card">
+          <div class="user-detail-row">
+            <span class="user-detail-label">Member No:</span>
+            <span class="user-detail-value">${user.MemberNo ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">User Name:</span>
+            <span class="user-detail-value">${user.Name ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">Email Address:</span>
+            <span class="user-detail-value">${user.EmailAddress ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">Mobile Phone:</span>
+            <span class="user-detail-value">${user.MobilePhone ?? ''}</span>
+          </div>
+        </div>
       `;
       document.getElementById("detailsInfo").innerHTML = `
         <div class="user-details-card">
