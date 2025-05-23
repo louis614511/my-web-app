@@ -144,3 +144,11 @@ input[type="text"]:focus, input[type="password"]:focus {
   color: #888;
   font-size: 0.9rem;
 }
+
+@media (max-width: 480px) {
+  .login-card {
+    max-width: 85vw;
+    padding: 0.5rem 0.7rem;
+    border-radius: 16px;
+  }
+}
