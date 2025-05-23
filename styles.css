@@ -1,9 +1,9 @@
 /*styles.css*/
-body {
+/*body {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 50px;
-}
+}*/
 
 .label {
   font-weight: bold;
@@ -32,6 +32,11 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   min-height: 100vh;
+  /* Add your background image here */
+  background-image: url('cover.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .login-container {
@@ -39,6 +44,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background: rgba(244, 246, 251, 0.7);
 }
 
 .login-card {
