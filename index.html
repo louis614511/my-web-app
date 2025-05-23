@@ -11,53 +11,37 @@
   <!-- Firebase Database -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
   <script type="module" src="app.js"></script>
-
 </head>
 <body>
-  <h1>Hello Web App 👋</h1>
-  <p>This works on mobile and desktop!</p>
-  <p>V17</p>
-
-  <h2>Login</h2>
-  <input type="text" id="dbid" placeholder="DBID" style="text-transform: uppercase;" />
-  <br />
-  <br />
-  <input type="text" id="username" placeholder="Email or Phone No" />
-  <br />
-  <br />
-  <input type="password" id="password" placeholder="Unique ID" />
-  <br />
-  <br />
-  <button onclick="login()">Login</button>
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  <button onclick="refreshApp()">🔄 Refresh</button>
-
-  <div id="loading" style="display:none; margin-top: 10px; font-weight: bold;">
-    🔄 Checking details, please wait...
+  <div class="login-container">
+    <div class="login-card">
+      <h1>Welcome 👋 V1</h1>
+      <p class="subtitle">Sign in to your account</p>
+      <div class="input-group">
+        <input type="text" id="dbid" placeholder="DBID" style="text-transform: uppercase;" />
+      </div>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Email or Phone No" />
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Unique ID" />
+      </div>
+      <button class="login-btn" onclick="login()">Login</button>
+      <div id="loading" class="loading">
+        🔄 Checking details, please wait...
+      </div>
+      <p id="result" class="result"></p>
+      <button class="refresh-btn" onclick="refreshApp()">🔄 Refresh</button>
+      <p class="version">V17</p>
+    </div>
   </div>
-
-  <p id="result" style="font-weight: bold; margin-top: 10px;"></p>
-
   <script>
-  window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", () => {
       const dbid = localStorage.getItem("dbID");
       const username = localStorage.getItem("savedUsername");
-
-      if (dbid) {
-        document.getElementById("dbid").value = dbid;
-      }
-
-      if (username) {
-        document.getElementById("username").value = username;
-      }
+      if (dbid) document.getElementById("dbid").value = dbid;
+      if (username) document.getElementById("username").value = username;
     });
   </script>
-
-  
-
 </body>
 </html>
