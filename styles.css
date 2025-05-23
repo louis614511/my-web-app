@@ -208,3 +208,72 @@ input[type="text"]:focus, input[type="password"]:focus {
     border-radius: 16px;
   }
 }
+
+
+.main-menu {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.menu-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #222;
+  transition: background 0.2s, color 0.2s;
+}
+.menu-btn.active, .menu-btn:hover {
+  background: #2563eb;
+  color: #fff;
+}
+.main-page {
+  min-height: 200px;
+}
+
+.now-time {
+  margin-top: 0.5rem;
+  color: #888;
+  font-size: 1rem;
+}
+
+.user-details-card {
+  background: #f2f3f4;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1.5rem;
+  max-width: 400px;
+  margin: 2rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.user-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #c6c8cb;
+  padding-bottom: 0.7rem;
+}
+
+.user-detail-row:last-child {
+  border-bottom: none;
+}
+
+.user-detail-label {
+  color: #464d5a;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.user-detail-value {
+  color: #222;
+  font-weight: 600;
+  font-size: 1.1rem;
+  word-break: break-all;
+}

@@ -16,41 +16,43 @@ const db = getDatabase(app);
 
 window.onload = () => {
   const data = localStorage.getItem("loggedInUser");
-  const dbID = localStorage.getItem("dbID");
-
   if (!data) {
-    // User is not logged in → redirect to login
     window.location.href = "index.html";
     return;
   }
-
-  const container = document.getElementById("userInfo");
-
   const user = JSON.parse(data);
-  const now = new Date().toLocaleString();
-  container.innerHTML = `
-    <div class="info-box">
-        <div class="label">Point:</div>
-        <div class="point-value">${user.Point}</div>
 
-        <div class="label">Member No:</div>
-        <div class="value">${user.MemberNo}</div>
+  // Get current time
+  const now = new Date();
+  const nowTime = now.toLocaleString();
 
-        <div class="label">User Name:</div>
-        <div class="value">${user.Name}</div>
+  // Balance Page
+  document.getElementById("balanceInfo").innerHTML = `
+    <div class="point-value">${user.Point ?? 0}</div>
+    <div class="now-time">Now Time: ${nowTime}</div>
+  `;
 
-        <div class="label">Email Address:</div>
-        <div class="value">${user.EmailAddress}</div>
-
-        <div class="label">Mobile Phone:</div>
-        <div class="value">${user.MobilePhone}</div>
-
-        <div class="label">Now Time:</div>
-        <div class="value">${now}</div>
+  // Details Page
+  document.getElementById("detailsInfo").innerHTML = `
+  <div class="user-details-card">
+    <div class="user-detail-row">
+      <span class="user-detail-label">Member No:</span>
+      <span class="user-detail-value">${user.MemberNo ?? ''}</span>
     </div>
-    `;
-
-
+    <div class="user-detail-row">
+      <span class="user-detail-label">User Name:</span>
+      <span class="user-detail-value">${user.Name ?? ''}</span>
+    </div>
+    <div class="user-detail-row">
+      <span class="user-detail-label">Email Address:</span>
+      <span class="user-detail-value">${user.EmailAddress ?? ''}</span>
+    </div>
+    <div class="user-detail-row">
+      <span class="user-detail-label">Mobile Phone:</span>
+      <span class="user-detail-value">${user.MobilePhone ?? ''}</span>
+    </div>
+  </div>
+`;
 };
 
 // Refresh app button
@@ -60,40 +62,45 @@ window.refreshApp = async () => {
   if (!stored) return;
 
   const oldUser = JSON.parse(stored);
-  const profileRef = ref(db, `MemberPointChecker/${dbID}/CompanyProfile`); 
-  const userRef = ref(db, `MemberPointChecker/${dbID}/Member/${oldUser.MemberNo}`); 
+  const userRef = ref(db, `MemberPointChecker/${dbID}/Member/${oldUser.MemberNo}`);
 
   try {
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
-      const newUser = snapshot.val();
-      localStorage.setItem("loggedInUser", JSON.stringify(newUser)); // update cached user
+      const user = snapshot.val();
+      // Update localStorage
 
-      const now = new Date().toLocaleString();
-      document.getElementById("userInfo").innerHTML = `
-        <div class="info-box">
-            <div class="label">Point:</div>
-            <div class="point-value">${newUser.Point}</div>
-
-            <div class="label">Member No:</div>
-            <div class="value">${newUser.MemberNo}</div>
-
-            <div class="label">User Name:</div>
-            <div class="value">${newUser.Name}</div>
-
-            <div class="label">Email Address:</div>
-            <div class="value">${newUser.EmailAddress}</div>
-
-            <div class="label">Mobile Phone:</div>
-            <div class="value">${newUser.MobilePhone}</div>
-
-            <div class="label">Now Time:</div>
-            <div class="value">${now}</div>
+      const now = new Date();
+      const nowTime = now.toLocaleString();
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+      // Update UI
+      document.getElementById("balanceInfo").innerHTML = `
+        <div class="point-value">${user.Point ?? 0}</div>
+        <div class="now-time">Now Time: ${nowTime}</div>
+      `;
+      document.getElementById("detailsInfo").innerHTML = `
+        <div class="user-details-card">
+          <div class="user-detail-row">
+            <span class="user-detail-label">Member No:</span>
+            <span class="user-detail-value">${user.MemberNo ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">User Name:</span>
+            <span class="user-detail-value">${user.Name ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">Email Address:</span>
+            <span class="user-detail-value">${user.EmailAddress ?? ''}</span>
+          </div>
+          <div class="user-detail-row">
+            <span class="user-detail-label">Mobile Phone:</span>
+            <span class="user-detail-value">${user.MobilePhone ?? ''}</span>
+          </div>
         </div>
       `;
     }
   } catch (error) {
-    console.error("Failed to refresh data:", error);
+    alert("Failed to refresh data.");
   }
 };
 
