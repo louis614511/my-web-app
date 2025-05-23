@@ -44,7 +44,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: rgba(244, 246, 251, 0.7);
+  background: rgba(244, 246, 251, 0.238);
 }
 
 .login-card {
@@ -145,8 +145,64 @@ input[type="text"]:focus, input[type="password"]:focus {
   font-size: 0.9rem;
 }
 
+.main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.main-card {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.main-card h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #222;
+}
+
+.main-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.main-btn {
+  padding: 0.75rem 1.5rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.main-btn.logout {
+  background: #e11d48;
+}
+
+.main-btn:hover {
+  background: #1e40af;
+}
+
+.main-btn.logout:hover {
+  background: #be123c;
+}
+
 @media (max-width: 480px) {
-  .login-card {
+  .login-card,
+  .main-card {
     max-width: 85vw;
     padding: 0.5rem 0.7rem;
     border-radius: 16px;
