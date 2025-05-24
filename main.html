@@ -11,7 +11,7 @@
     <div class="main-card">
       <div class="main-menu">
         <button class="menu-btn active" onclick="showPage('balance')">Balance</button>
-        <button class="menu-btn" onclick="showPage('details')">User Details</button>
+        <button class="menu-btn" onclick="showPage('transaction')">Trasaction</button>
          <button class="menu-btn" onclick="refreshApp()">Refresh</button>
         <button class="menu-btn" onclick="logout()">Logout</button>
       </div>
@@ -21,9 +21,9 @@
         <button class="main-btn" onclick="refreshApp()">🔄 Refresh</button>
         <button class="main-btn logout" onclick="logout()">🚪 Logout</button>
       </div>
-      <div id="detailsPage" class="main-page" style="display:none;">
-        <h2>User Details</h2>
-        <div id="detailsInfo"></div>
+      <div id="transactionPage" class="main-page" style="display:none;">
+        <h2>User Transaction</h2>
+        <div id="transactionInfo"></div>
       </div>
     </div>
   </div>
