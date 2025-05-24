@@ -292,7 +292,7 @@ input[type="text"]:focus, input[type="password"]:focus {
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 1.2rem 1rem;
-  max-width: 500px;
+  max-width: 700px;
   margin: 2rem auto 0 auto;
   display: flex;
   flex-direction: column;
@@ -316,7 +316,7 @@ input[type="text"]:focus, input[type="password"]:focus {
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 2rem;
   color: #222;
 }
 
@@ -331,7 +331,7 @@ input[type="text"]:focus, input[type="password"]:focus {
 .transaction-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.95rem;
+  font-size: 1.5rem;
   color: #666;
   margin-top: 0.2rem;
 }

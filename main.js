@@ -31,7 +31,7 @@ async function loadTransactionInfo(memberNo) {
     const transactionArray = Object.entries(transactions)
       .map(([key, value]) => ({ id: key, ...value }))
       .sort((a, b) => new Date(b.Timestamp || b.Date || 0) - new Date(a.Timestamp || a.Date || 0))
-      .slice(0, 10);
+      .slice(0, 5);
 
     // Build HTML
     const html = transactionArray.map(tx => {
