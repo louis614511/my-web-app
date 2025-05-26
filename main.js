@@ -1,5 +1,7 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyB31qLNXaKh5Eo5ft0GT3FDdqHcTMXvT0s",
@@ -209,20 +211,26 @@ async function loadMyVouchers() {
 }
 
 window.showQRCode = function(voucherNo) {
-  const targetDiv = document.getElementById(`qr-${voucherNo}`);
-  if (targetDiv.style.display === 'none') {
-    targetDiv.innerHTML = '';
-    new QRCode(targetDiv, {
-      text: voucherNo,
-      width: 128,
-      height: 128
-    });
-    targetDiv.style.display = 'block';
-  } else {
-    targetDiv.style.display = 'none';
-  }
+  const modal = document.getElementById("qrModal");
+  const modalContent = document.getElementById("qrModalContent");
+  modalContent.innerHTML = ""; // Clear previous QR
+
+  new QRCode(modalContent, {
+    text: voucherNo,
+    width: 500,
+    height: 500,
+    colorDark: "#222",
+    colorLight: "#fff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  modal.style.display = "flex";
 };
 
+window.closeQRModal = function() {
+  document.getElementById("qrModal").style.display = "none";
+  document.getElementById("qrModalContent").innerHTML = "";
+};
 
 
 window.redeemVoucher = redeemVoucher;

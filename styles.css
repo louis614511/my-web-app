@@ -454,4 +454,36 @@ input[type="text"]:focus, input[type="password"]:focus {
   transform: scale(1.05);
 }
 
+/* Add at the end of styles.css */
+.qr-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.qr-modal-content {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem 2.5rem 1.5rem 2.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  text-align: center;
+}
+
+.qr-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.qr-modal-close:hover {
+  color: #e11d48;
+}

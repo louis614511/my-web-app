@@ -3,10 +3,9 @@
 <html>
 <head>
   <title>Main</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
-  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <script type="module" src="main.js"></script>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body>
   <div class="main-container">
@@ -35,6 +34,16 @@
         </div>
         <div id="allVoucherTab"></div>
         <div id="myVoucherTab" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Add this at the end of your body -->
+  <div id="qrModal" class="qr-modal" style="display:none;">
+    <div class="qr-modal-content">
+      <span class="qr-modal-close" onclick="closeQRModal()">&times;</span>
+      <div id="qrModalContent"></div>
+      <div style="margin-top:1rem; text-align:center;">
+        <button onclick="closeQRModal()" class="main-btn">Close</button>
       </div>
     </div>
   </div>
