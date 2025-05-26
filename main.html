@@ -12,8 +12,7 @@
       <div class="main-menu">
         <button class="menu-btn active" onclick="showPage('balance')">Balance</button>
         <button class="menu-btn" onclick="showPage('transaction')">Trasaction</button>
-         <button class="menu-btn" onclick="refreshApp()">Refresh</button>
-        <button class="menu-btn" onclick="logout()">Logout</button>
+        <button class="menu-btn" onclick="showPage('voucher')">Voucher</button>
       </div>
       <div id="balancePage" class="main-page">
         <h2>Balance Point</h2>
@@ -25,15 +24,39 @@
         <h2>User Transaction</h2>
         <div id="transactionInfo"></div>
       </div>
+      <!-- Voucher Page -->
+      <div id="voucherPage" class="main-page" style="display:none;">
+        <h2>Vouchers</h2>
+        <div class="voucher-tabs">
+          <button onclick="showVoucherTab('all')">All Voucher</button>
+          <button onclick="showVoucherTab('my')">My Voucher</button>
+        </div>
+        <div id="allVoucherTab"></div>
+        <div id="myVoucherTab" style="display:none;"></div>
+      </div>
     </div>
   </div>
   <script>
-    // Simple tab switcher
-    window.showPage = function(page) {
+    window.showPage = function (page) {
       document.querySelectorAll('.main-page').forEach(el => el.style.display = 'none');
       document.getElementById(page + 'Page').style.display = '';
       document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelector('.menu-btn[onclick*="' + page + '"]').classList.add('active');
+
+      if (page === "transaction") {
+        const user = JSON.parse(localStorage.getItem("loggedInUser"));
+        loadTransactionInfo(user.MemberNo);
+      }
+
+      if (page === "voucher") {
+        loadAllVouchers();
+        loadMyVouchers();
+      }
+    };
+
+    window.showVoucherTab = function(tab) {
+      document.getElementById("allVoucherTab").style.display = (tab === 'all') ? '' : 'none';
+      document.getElementById("myVoucherTab").style.display = (tab === 'my') ? '' : 'none';
     };
   </script>
 </body>
