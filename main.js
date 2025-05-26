@@ -195,11 +195,9 @@ async function loadMyVouchers() {
     const vouchers = snapshot.val();
     const html = Object.entries(vouchers).map(([k, v]) => `
       <div class="voucher-card">
-        <h3>${k}</h3>
         <p class="voucher-detail">${v.Description}</p>
         <p class="voucher-detail">Collected at: ${v.CollectedTime}</p>
         <button onclick="showQRCode('${k}')">Show QR</button>
-        <div id="qr-${k}" class="qr-container" style="display:none; margin-top:1rem;"></div>
       </div>
     `).join("");
 
@@ -210,22 +208,48 @@ async function loadMyVouchers() {
   }
 }
 
+
 window.showQRCode = function(voucherNo) {
   const modal = document.getElementById("qrModal");
   const modalContent = document.getElementById("qrModalContent");
-  modalContent.innerHTML = ""; // Clear previous QR
+  modalContent.innerHTML = ""; // Clear previous content
 
-  new QRCode(modalContent, {
+  // Calculate dynamic size (e.g. 80% of the smaller screen dimension)
+  const maxWidth = Math.min(window.innerWidth, window.innerHeight);
+  const qrSize = Math.floor(maxWidth * 0.8); // 80% of screen
+
+  // Create wrapper
+  const qrWrapper = document.createElement("div");
+  qrWrapper.id = "qrCanvas";
+  qrWrapper.style.width = `${qrSize}px`;
+  qrWrapper.style.height = `${qrSize}px`;
+  qrWrapper.style.margin = "0 auto";
+
+  // Create QR
+  new QRCode(qrWrapper, {
     text: voucherNo,
-    width: 500,
-    height: 500,
-    colorDark: "#222",
+    width: qrSize,
+    height: qrSize,
+    colorDark: "#000",
     colorLight: "#fff",
     correctLevel: QRCode.CorrectLevel.H
   });
 
+  // VoucherNo text
+  const codeText = document.createElement("p");
+  codeText.style.marginTop = "1rem";
+  codeText.style.fontSize = "1.8rem";
+  codeText.style.fontWeight = "bold";
+  codeText.style.textAlign = "center";
+  codeText.textContent = voucherNo;
+
+  modalContent.appendChild(qrWrapper);
+  modalContent.appendChild(codeText);
+
   modal.style.display = "flex";
 };
+
+
 
 window.closeQRModal = function() {
   document.getElementById("qrModal").style.display = "none";
