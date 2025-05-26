@@ -65,6 +65,8 @@ window.onload = () => {
     </div>`;
 
   loadTransactionInfo(user.MemberNo);
+  loadAllVouchers();
+  loadMyVouchers();
 };
 
 window.refreshApp = async () => {
@@ -126,9 +128,6 @@ async function loadAllVouchers() {
     }
 
     document.getElementById("allVoucherTab").innerHTML = html;
-        document.getElementById("allVoucherTab").innerHTML = `
-      <pre>${JSON.stringify(vouchers, null, 2)}</pre>
-    `;
 
   } catch {
     document.getElementById("allVoucherTab").innerHTML = "<p>Error loading vouchers.</p>";
@@ -197,3 +196,4 @@ async function loadMyVouchers() {
     document.getElementById("myVoucherTab").innerHTML = "<p>Error loading collected vouchers.</p>";
   }
 }
+window.redeemVoucher = redeemVoucher;

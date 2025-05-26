@@ -42,16 +42,6 @@
       document.getElementById(page + 'Page').style.display = '';
       document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelector('.menu-btn[onclick*="' + page + '"]').classList.add('active');
-
-      if (page === "transaction") {
-        const user = JSON.parse(localStorage.getItem("loggedInUser"));
-        loadTransactionInfo(user.MemberNo);
-      }
-
-      if (page === "voucher") {
-        loadAllVouchers();
-        loadMyVouchers();
-      }
     };
 
     window.showVoucherTab = function(tab) {
