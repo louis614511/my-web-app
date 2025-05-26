@@ -50,7 +50,28 @@ async function loadTransactionInfo(memberNo) {
   }
 }
 
-window.onload = () => {
+async function loadScrollingAds() {
+  const dbID = localStorage.getItem("dbID");
+  const adsRef = ref(getDatabase(), `MemberPointChecker/${dbID}/Ads`);
+
+  try {
+    const snapshot = await get(adsRef);
+    if (!snapshot.exists()) return;
+
+    const ads = snapshot.val();
+    const lines = Object.values(ads).filter(line => line && line.trim() !== "");
+
+    if (lines.length === 0) return;
+
+    const combinedText = lines.join("   |   ");
+    document.getElementById("adText").textContent = combinedText;
+
+  } catch (err) {
+    console.error("Failed to load ads:", err);
+  }
+}
+
+window.onload = async () => {
   const data = localStorage.getItem("loggedInUser");
   if (!data) return location.href = "index.html";
 
@@ -70,6 +91,7 @@ window.onload = () => {
   loadTransactionInfo(user.MemberNo);
   loadAllVouchers();
   loadMyVouchers();
+  await loadScrollingAds(); 
 };
 
 window.refreshApp = async () => {
