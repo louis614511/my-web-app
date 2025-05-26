@@ -1,6 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { runTransaction } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
 
 const firebaseConfig = {
@@ -121,39 +122,58 @@ async function loadAllVouchers() {
     let html = "";
 
     for (const [id, voucher] of Object.entries(vouchers)) {
+      const list = voucher.VoucherList || {};
+      const hasAvailable = Object.values(list).some(v => v.IsCollected === "F");
+
       html += `
         <div class="voucher-card">
           <h3>${voucher.Description}</h3>
           <p class="voucher-detail">Voucher ID: ${voucher.VoucherID}</p>
           <p class="voucher-detail">Cash Value: RM${voucher.CashValue}</p>
           <p class="voucher-detail">Purchase Amount: RM${voucher.PurchaseAmt}</p>
-          <p class="voucher-detail">Valid: ${voucher.FromDate} - ${voucher.ToDate}</p>
+          <p class="voucher-detail">Valid: ${formatToUSDate(voucher.FromDate)} - ${formatToUSDate(voucher.ToDate)}</p>
           <p class="voucher-detail">Redeem for ${voucher.PointToRedeem} points</p>
-          <button onclick="redeemVoucher('${id}', ${voucher.PointToRedeem})">Collect</button>
+          ${
+            hasAvailable
+              ? `<button onclick="redeemVoucher('${id}', ${voucher.PointToRedeem})">Collect</button>`
+              : `<button disabled style="background-color:#ccc; cursor:default;">Fully Collected</button>`
+          }
         </div>`;
-
     }
 
     document.getElementById("allVoucherTab").innerHTML = html;
 
-  } catch {
+  } catch (err) {
+    console.error("Error loading vouchers:", err);
     document.getElementById("allVoucherTab").innerHTML = "<p>Error loading vouchers.</p>";
   }
 }
 
+
+function formatToUSDate(dateStr) {
+  const date = new Date(dateStr);
+  if (isNaN(date)) return dateStr;
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+}
+
+
 async function redeemVoucher(voucherKey, pointRequired) {
   const dbID = localStorage.getItem("dbID");
   const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const userPath = `MemberPointChecker/${dbID}/Member/${user.MemberNo}`;
+  const voucherListRef = ref(db, `MemberPointChecker/${dbID}/Voucher/${voucherKey}/VoucherList`);
 
-  if (user.Point < pointRequired) {
-    alert("Not enough points.");
-    return;
-  }
-
-  const listRef = ref(db, `MemberPointChecker/${dbID}/Voucher/${voucherKey}/VoucherList`);
-  const snapshot = await get(listRef);
-
+  const snapshot = await get(voucherListRef);
   const list = snapshot.val();
+
   const entry = Object.entries(list).find(([_, v]) => v.IsCollected === "F");
 
   if (!entry) {
@@ -161,24 +181,69 @@ async function redeemVoucher(voucherKey, pointRequired) {
     return;
   }
 
+  const freshUserSnap = await get(ref(db, userPath));
+  const freshUser = freshUserSnap.val();
+
+  if (freshUser.Point < pointRequired) {
+    alert("Not enough points.");
+    return;
+  }
+
   const [itemKey, voucher] = entry;
+  const afterPoint = user.Point - pointRequired;
 
-  const updates = {
-    [`MemberPointChecker/${dbID}/Voucher/${voucherKey}/VoucherList/${itemKey}/IsCollected`]: "T",
-    [`MemberPointChecker/${dbID}/Member/${user.MemberNo}/CollectedVouchers/${voucher.VoucherNo}`]: {
-      Description: `Collected ${voucher.VoucherNo}`,
-      CashValue: pointRequired,
-      CollectedTime: new Date().toLocaleString()
-    },
-    [`MemberPointChecker/${dbID}/Member/${user.MemberNo}/Point`]: user.Point - pointRequired
-  };
+  // ✅ Ask user before committing any changes
+  const confirmed = confirm(`🎁 Confirm to collect this voucher?\n\nOriginal Points: ${user.Point}\nRemaining: ${afterPoint}`);
+  if (!confirmed) return;
 
-  await update(ref(db), updates);
-  alert("Voucher collected!");
-  await refreshApp();
-  await loadAllVouchers();
-  await loadMyVouchers(); 
+
+  const itemRef = ref(db, `MemberPointChecker/${dbID}/Voucher/${voucherKey}/VoucherList/${itemKey}`);
+
+  try {
+    await runTransaction(itemRef, currentData => {
+      if (currentData?.IsCollected === "F") {
+        // Mark as collected
+        currentData.IsCollected = "T";
+        return currentData;
+      } else {
+        return; // Abort transaction
+      }
+    });
+
+    // Double check point again
+    const freshUserSnap = await get(ref(db, userPath));
+    const freshUser = freshUserSnap.val();
+
+    if (freshUser.Point < pointRequired) {
+      alert("Not enough points after sync.");
+      return;
+    }
+
+    const afterPoint = freshUser.Point - pointRequired;
+
+    const updates = {
+      [`${userPath}/CollectedVouchers/${voucher.VoucherNo}`]: {
+        Description: `Collected ${voucher.VoucherNo}`,
+        CashValue: pointRequired,
+        CollectedTime: new Date().toLocaleString()
+      },
+      [`${userPath}/Point`]: afterPoint
+    };
+
+    await update(ref(db), updates);
+
+    alert("Voucher collected successfully!");
+    await refreshApp();
+    await loadAllVouchers();
+    await loadMyVouchers();
+
+  } catch (err) {
+    console.error("Transaction failed:", err);
+    alert("Failed to redeem voucher. Try again.");
+  }
 }
+
+
 
 async function loadMyVouchers() {
   const dbID = localStorage.getItem("dbID");

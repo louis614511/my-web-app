@@ -37,6 +37,8 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  padding: 10px 0; /* Add top and bottom spacing */
+  overflow-y: auto;
 }
 
 .login-container {
@@ -149,7 +151,8 @@ input[type="text"]:focus, input[type="password"]:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  padding: 2rem;
+  min-height: auto;
 }
 
 .main-card {
@@ -391,32 +394,57 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .voucher-card {
-  background: linear-gradient(to right, #ffffff, #f9fafb);
-  border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-  padding: 2.2rem;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background: linear-gradient(145deg, #ffffff, #f3f4f6);
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
   border: 1px solid #e5e7eb;
-  transition: all 0.2s ease-in-out;
 }
 
 .voucher-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
 }
 
+.voucher-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at top left, rgba(37,99,235,0.08), transparent);
+  z-index: 0;
+}
+
+.voucher-card h3,
+.voucher-card p,
+.voucher-card button {
+  position: relative;
+  z-index: 1;
+}
+
+
 .voucher-card h3 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 0.3rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  justify-content: center; /* <-- Add this */
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  text-align: center;       /* Optional, ensures full alignment */
 }
+
+
+.voucher-card p {
+  font-size: 1.7rem;
+  color: #374151;
+  margin: 0.5rem 0;
+}
+
 
 .voucher-card .voucher-detail {
   font-size: 2rem;
@@ -430,11 +458,7 @@ input[type="text"]:focus, input[type="password"]:focus {
   font-size: 2.8rem;
 }
 
-.voucher-card p {
-  font-size: 1.9rem;
-  color: #4b5563;
-  margin: 1rem 0;
-}
+
 
 .voucher-card button {
   padding: 0.8rem 1.6rem;
