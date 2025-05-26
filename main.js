@@ -122,9 +122,14 @@ async function loadAllVouchers() {
       html += `
         <div class="voucher-card">
           <h3>${voucher.Description}</h3>
-          <p>Redeem for ${voucher.PointToRedeem} points</p>
+          <p class="voucher-detail">Voucher ID: ${voucher.VoucherID}</p>
+          <p class="voucher-detail">Cash Value: RM${voucher.CashValue}</p>
+          <p class="voucher-detail">Purchase Amount: RM${voucher.PurchaseAmt}</p>
+          <p class="voucher-detail">Valid: ${voucher.FromDate} - ${voucher.ToDate}</p>
+          <p class="voucher-detail">Redeem for ${voucher.PointToRedeem} points</p>
           <button onclick="redeemVoucher('${id}', ${voucher.PointToRedeem})">Collect</button>
         </div>`;
+
     }
 
     document.getElementById("allVoucherTab").innerHTML = html;
@@ -189,13 +194,38 @@ async function loadMyVouchers() {
     const html = Object.entries(vouchers).map(([k, v]) => `
       <div class="voucher-card">
         <h3>${k}</h3>
-        <p>${v.Description}</p>
-        <p>Collected at: ${v.CollectedTime}</p>
-      </div>`).join("");
+        <p class="voucher-detail">${v.Description}</p>
+        <p class="voucher-detail">Collected at: ${v.CollectedTime}</p>
+        <button onclick="showQRCode('${k}')">Show QR</button>
+        <div id="qr-${k}" class="qr-container" style="display:none; margin-top:1rem;"></div>
+      </div>
+    `).join("");
 
     document.getElementById("myVoucherTab").innerHTML = html;
+
   } catch {
     document.getElementById("myVoucherTab").innerHTML = "<p>Error loading collected vouchers.</p>";
   }
 }
+
+window.showQRCode = function(voucherNo) {
+  const targetDiv = document.getElementById(`qr-${voucherNo}`);
+  if (targetDiv.style.display === 'none') {
+    targetDiv.innerHTML = '';
+    new QRCode(targetDiv, {
+      text: voucherNo,
+      width: 128,
+      height: 128
+    });
+    targetDiv.style.display = 'block';
+  } else {
+    targetDiv.style.display = 'none';
+  }
+};
+
+
+
 window.redeemVoucher = redeemVoucher;
+
+
+

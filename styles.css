@@ -409,13 +409,21 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .voucher-card h3 {
-  font-size: 2.6rem;
+  font-size: 3rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
+  margin-bottom: 0.3rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
+
+.voucher-card .voucher-detail {
+  font-size: 2rem;
+  color: #4b5563;
+  margin-bottom: 0.8rem;
+}
+
 
 .voucher-card h3::before {
   content: "🎁";
