@@ -168,7 +168,9 @@ async function redeemVoucher(voucherKey, pointRequired) {
 
   await update(ref(db), updates);
   alert("Voucher collected!");
-  refreshApp();
+  await refreshApp();
+  await loadAllVouchers();
+  await loadMyVouchers(); 
 }
 
 async function loadMyVouchers() {
