@@ -64,8 +64,21 @@ async function loadScrollingAds() {
     if (lines.length === 0) return;
 
     const combinedText = lines.join("   |   ");
-    document.getElementById("adText").textContent = combinedText;
-    adjustAdScrollSpeed();
+    const adText = document.getElementById("adText");
+
+    adText.textContent = combinedText;
+
+    // Wait for DOM update to calculate full width
+    requestAnimationFrame(() => {
+      const textWidth = adText.scrollWidth;
+      const screenWidth = window.innerWidth;
+      const distance = textWidth + screenWidth;
+      const speed = 100; // pixels per second
+      const duration = distance / speed;
+
+      adText.style.animationDuration = `${duration}s`;
+      adText.classList.add("ready");
+    });
   } catch (err) {
     console.error("Failed to load ads:", err);
   }
