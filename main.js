@@ -65,11 +65,31 @@ async function loadScrollingAds() {
 
     const combinedText = lines.join("   |   ");
     document.getElementById("adText").textContent = combinedText;
-
+    adjustAdScrollSpeed();
   } catch (err) {
     console.error("Failed to load ads:", err);
   }
 }
+
+function adjustAdScrollSpeed() {
+  const adText = document.getElementById("adText");
+  const adTrack = document.querySelector(".ad-track");
+
+  if (!adText || !adTrack) return;
+
+  const screenWidth = window.innerWidth;
+  const textWidth = adText.offsetWidth;
+
+  // Speed: 100px per 1 second
+  const baseSpeed = 100; 
+  const duration = (textWidth + screenWidth) / baseSpeed;
+
+  adText.style.animationDuration = `${duration}s`;
+}
+
+window.addEventListener('resize', adjustAdScrollSpeed);
+window.addEventListener('load', adjustAdScrollSpeed);
+
 
 window.onload = async () => {
   const data = localStorage.getItem("loggedInUser");

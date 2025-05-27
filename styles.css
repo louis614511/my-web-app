@@ -19,6 +19,13 @@
   align-items: center;
 }
 
+.ad-track {
+  display: inline-block;
+  white-space: nowrap;
+  min-width: 100%;
+  overflow: hidden;
+}
+
 .ad-text {
   display: inline-block;
   white-space: nowrap;
@@ -31,8 +38,12 @@
 }
 
 @keyframes scrollAd {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 .ads-banner:hover .ads-text {
