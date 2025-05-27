@@ -177,6 +177,8 @@ async function loadAllVouchers() {
     let html = "";
 
     for (const [id, voucher] of Object.entries(vouchers)) {
+      if (voucher.IsActive !== "T") continue;
+
       const list = voucher.VoucherList || {};
       const hasAvailable = Object.values(list).some(v => v.IsCollected === "F");
 
