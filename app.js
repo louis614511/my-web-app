@@ -18,6 +18,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+window.onload = async () => {
+  document.getElementById('photoPicker').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgData = e.target.result;
+      // Do something with image data (e.g. display or upload)
+      console.log("Image loaded:", imgData);
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+};
+
 window.login = function () {
   const dbid = document.getElementById("dbid").value.trim().toUpperCase();
   const inputUser = document.getElementById("username").value;
